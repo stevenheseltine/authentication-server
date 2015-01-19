@@ -1,6 +1,5 @@
 package com.stevenheseltine.api.auth.configuration;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
@@ -8,11 +7,8 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.A
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.provider.token.TokenStore;
-import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
-
-import javax.sql.DataSource;
 
 @Configuration
 @EnableAuthorizationServer
@@ -31,16 +27,16 @@ public class OAuthConfiguration extends AuthorizationServerConfigurerAdapter {
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         clients.inMemory()
-                .withClient("curl")
+                .withClient("crm")
                 .authorities("ROLE_ADMIN")
-                .resourceIds("jaxenter")
+                .resourceIds("customer")
                 .scopes("read", "write")
                 .authorizedGrantTypes("client_credentials")
                 .secret("password")
                 .and()
-                .withClient("web")
-                .redirectUris("http://github.com/techdev-solutions/")
-                .resourceIds("jaxenter")
+                .withClient("customerportal")
+                .redirectUris("http://customerportal.com/")
+                .resourceIds("customer")
                 .scopes("read")
                 .authorizedGrantTypes("implicit");
     }
