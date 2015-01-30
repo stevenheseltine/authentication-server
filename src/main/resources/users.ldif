@@ -108,6 +108,13 @@ ou: developer
 uniqueMember: uid=ben,ou=people,dc=springframework,dc=org
 uniqueMember: uid=bob,ou=people,dc=springframework,dc=org
 
+dn: cn=API_USERS,ou=groups,dc=springframework,dc=org
+objectclass: top
+objectclass: groupOfNames
+cn: developers
+ou: developer
+uniqueMember: uid=bob,ou=people,dc=springframework,dc=org
+
 dn: cn=managers,ou=groups,dc=springframework,dc=org
 objectclass: top
 objectclass: groupOfNames
