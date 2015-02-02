@@ -11,6 +11,12 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
+import java.security.NoSuchAlgorithmException;
+
+import static java.security.KeyPairGenerator.getInstance;
+
 @Configuration
 @EnableAuthorizationServer
 public class OAuthConfiguration extends AuthorizationServerConfigurerAdapter {
@@ -18,10 +24,22 @@ public class OAuthConfiguration extends AuthorizationServerConfigurerAdapter {
     @Autowired
     private AuthenticationManager authenticationManager;
 
+
     @Bean
-    public JwtAccessTokenConverter accessTokenConverter() {
+    public KeyPair keyPair() throws NoSuchAlgorithmException {
+
+        KeyPairGenerator keyGen = getInstance("RSA");
+        keyGen.initialize(1024);
+
+        return keyGen.genKeyPair();
+
+    }
+
+    @Bean
+    public JwtAccessTokenConverter accessTokenConverter() throws NoSuchAlgorithmException {
         JwtAccessTokenConverter jwtAccessTokenConverter = new JwtAccessTokenConverter();
-        jwtAccessTokenConverter.setSigningKey("secret");
+//        jwtAccessTokenConverter.setSigningKey("secret");
+        jwtAccessTokenConverter.setKeyPair(keyPair());
         return jwtAccessTokenConverter;
     }
 
@@ -45,7 +63,6 @@ public class OAuthConfiguration extends AuthorizationServerConfigurerAdapter {
                 .scopes("read", "write")
                 .redirectUris("http://localhost:8081/api/hello")
                 .and()
-                        // client_credentials requires reference to clientDetailsService on Resource Server!!!
                 .withClient("quick-assist")
                 .authorizedGrantTypes("password")
                 .resourceIds("oauth2-resource")

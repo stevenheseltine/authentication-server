@@ -39,7 +39,7 @@ task wrapper(type: Wrapper) {
 	gradleVersion = "2.2.1"
 }
 
-//applicationDefaultJvmArgs = [
-//		'-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=9998'
-//]
+applicationDefaultJvmArgs = [
+		'-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=9998'
+]
 
